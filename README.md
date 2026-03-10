@@ -15,6 +15,8 @@ As you install more Claude Code skills and plugins, every skill's description is
 /plugin install claude-skills-organizer
 ```
 
+All features have been fully tested — including tier rebalancing, pin/unpin, promote/demote, rollback, clean, and 30-day usage simulation.
+
 ## Solution
 
 This plugin automatically archives rarely-used skills and plugins based on usage patterns:

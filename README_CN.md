@@ -6,7 +6,7 @@
 
 ## 问题
 
-随着安装的 Claude Code skills 和插件越来越多，每个 skill 的描述都会加载到每次对话中——即使你很少使用它们。当 skills 数量达到 50-100+ 时，会给 Claude 的上下文增加噪音，干扰 skill 匹配。
+随着安装的 Claude Code skills 和插件越来越多，每个 skill 的描述都会加载到每次对话中——即使你很少使用它们。当 skills 数量达到 50-100+ 时，会给 Claude 的上下文增加噪音，干扰 skill 匹配，同时也会影响模型的整体性能。
 
 ## 快速开始
 
@@ -14,6 +14,8 @@
 /plugin marketplace add tidego/claude-skills-organizer
 /plugin install claude-skills-organizer
 ```
+
+安装后**全自动运行**——无需额外操作。使用追踪钩子会立即开始记录，层级根据你的实际使用模式动态调整。如需手动控制，请参考下方[使用方法](#使用方法)部分，但自动追踪已能处理大多数场景，包括动态升降级。
 
 所有功能均经过完整测试——包括层级重平衡、置顶/取消置顶、升级/降级、回滚、清理，以及 30 天使用模拟验证。
 

@@ -6,7 +6,7 @@ A Claude Code plugin that manages user skills and plugins in a three-tier hierar
 
 ## Problem
 
-As you install more Claude Code skills and plugins, every skill's description is loaded into every conversation — even skills you rarely use. With 50-100+ skills across user skills and plugins, this adds noise to Claude's context and can interfere with skill matching.
+As you install more Claude Code skills and plugins, every skill's description is loaded into every conversation — even skills you rarely use. With 50-100+ skills across user skills and plugins, this adds noise to Claude's context, interferes with skill matching, and degrades model performance.
 
 ## Quick Start
 
@@ -14,6 +14,8 @@ As you install more Claude Code skills and plugins, every skill's description is
 /plugin marketplace add tidego/claude-skills-organizer
 /plugin install claude-skills-organizer
 ```
+
+Once installed, the plugin works **fully automatically** — no extra setup needed. Usage tracking hooks start recording immediately, and tiers adjust dynamically based on your actual usage patterns. For manual control, see the [Usage](#usage) section below, but automatic tracking already handles most scenarios including dynamic promotion and demotion.
 
 All features have been fully tested — including tier rebalancing, pin/unpin, promote/demote, rollback, clean, and 30-day usage simulation.
 

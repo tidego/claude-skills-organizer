@@ -90,6 +90,15 @@ This means Claude can **proactively discover** archived skills when your request
 /skills-organize --clean --apply      # Delete all T2/T3 skills, disable T2/T3 plugins
 ```
 
+### Custom Window
+
+```
+/skills-organize --window 7              # Use 7-day window instead of default 15
+/skills-organize --window 30 --apply     # Apply with 30-day window
+```
+
+The `--window` parameter sets the usage window in days (default: 15). Skills with no reads within this window get archived. A shorter window archives more aggressively; a longer window keeps more skills active.
+
 ### Rollback
 
 ```

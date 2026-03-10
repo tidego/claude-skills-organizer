@@ -422,7 +422,8 @@ def calculate_tiers(stats: dict, config: dict) -> dict[str, int]:
 
 
 def generate_index(stats: dict, config: dict, tiers: dict,
-                    installed_plugins: dict | None = None) -> str:
+                    installed_plugins: dict | None = None,
+                    window_days: int = 15) -> str:
     """Generate the always-loaded T1 index SKILL.md content.
 
     Hierarchical: T1 index only lists T2 skills and T2 plugins.
@@ -437,12 +438,12 @@ def generate_index(stats: dict, config: dict, tiers: dict,
                 desc = ""
                 if installed_plugins and name in installed_plugins:
                     desc = get_plugin_description(installed_plugins[name])
-                reads = count_reads_in_window(stats.get(name, {}).get("reads", []), 15)
+                reads = count_reads_in_window(stats.get(name, {}).get("reads", []), window_days)
                 t2_plugins.append((plugin_name, reads, desc))
             else:
                 skill_dir = SKILLS_DIR / name
                 desc = get_skill_description(skill_dir)
-                reads = count_reads_in_window(stats.get(name, {}).get("reads", []), 15)
+                reads = count_reads_in_window(stats.get(name, {}).get("reads", []), window_days)
                 t2_skills.append((name, reads, desc))
 
     t2_skills.sort(key=lambda x: (-x[1], x[0]))
@@ -507,7 +508,8 @@ T2_INDEX_PATH = ARCHIVE_DIR / "t2-index.md"
 
 
 def generate_t2_index(stats: dict, tiers: dict,
-                      installed_plugins: dict | None = None) -> str:
+                      installed_plugins: dict | None = None,
+                      window_days: int = 15) -> str:
     """Generate the T2 index file that lists T3 (cold) skills and plugins.
 
     Stored at ~/.claude/skills-archive/t2-index.md.
@@ -522,12 +524,12 @@ def generate_t2_index(stats: dict, tiers: dict,
                 desc = ""
                 if installed_plugins and name in installed_plugins:
                     desc = get_plugin_description(installed_plugins[name])
-                reads = count_reads_in_window(stats.get(name, {}).get("reads", []), 15)
+                reads = count_reads_in_window(stats.get(name, {}).get("reads", []), window_days)
                 t3_plugins.append((plugin_name, reads, desc))
             else:
                 skill_dir = SKILLS_DIR / name
                 desc = get_skill_description(skill_dir)
-                reads = count_reads_in_window(stats.get(name, {}).get("reads", []), 15)
+                reads = count_reads_in_window(stats.get(name, {}).get("reads", []), window_days)
                 t3_skills.append((name, reads, desc))
 
     t3_skills.sort(key=lambda x: (-x[1], x[0]))
@@ -728,16 +730,16 @@ def rollback() -> None:
     latest.unlink()
 
 
-def show_stats(stats: dict) -> None:
+def show_stats(stats: dict, window_days: int = 15) -> None:
     """Display usage statistics for skills and plugins."""
     installed_plugins = scan_installed_plugins()
 
-    print("\n=== Skill Usage Statistics (last 15 days) ===\n")
+    print(f"\n=== Skill Usage Statistics (last {window_days} days) ===\n")
 
     skill_entries = []
     plugin_entries = []
     for name, entry in stats.items():
-        reads_90d = count_reads_in_window(entry.get("reads", []), 15)
+        reads_90d = count_reads_in_window(entry.get("reads", []), window_days)
         pinned = "PIN" if entry.get("pinned") else ""
         grace = "NEW" if is_in_grace_period(entry, 7) else ""
 
@@ -781,7 +783,11 @@ def main() -> None:
     parser.add_argument("--rollback", action="store_true", help="Undo last organize")
     parser.add_argument("--stats", action="store_true", help="Show usage statistics")
     parser.add_argument("--clean", action="store_true", help="Delete all T2/T3 skills and disable T2/T3 plugins")
+    parser.add_argument("--window", type=int, default=15, metavar="DAYS", help="Usage window in days (default: 15)")
     args = parser.parse_args()
+
+    # Apply window override to config thresholds
+    window_days = args.window
 
     # Ensure archive dir exists
     for d in [ARCHIVE_DIR, SNAPSHOTS_DIR]:
@@ -796,6 +802,7 @@ def main() -> None:
     if args.clean:
         stats = load_json(STATS_PATH)
         config = load_json(CONFIG_PATH)
+        config.setdefault("thresholds", {})["window_days"] = window_days
         stats = reconcile(stats, config)
         target_tiers = calculate_tiers(stats, config)
         installed_plugins = scan_installed_plugins()
@@ -860,6 +867,7 @@ def main() -> None:
     # Load data
     stats = load_json(STATS_PATH)
     config = load_json(CONFIG_PATH)
+    config.setdefault("thresholds", {})["window_days"] = window_days
 
     # Handle pin/unpin
     if args.pin:
@@ -889,7 +897,7 @@ def main() -> None:
 
     # Handle stats display
     if args.stats:
-        show_stats(stats)
+        show_stats(stats, window_days)
         save_json(STATS_PATH, stats)
         return
 
@@ -1065,13 +1073,13 @@ def main() -> None:
     # Regenerate indexes
     if args.apply:
         # T1 index (always loaded, lists T2 + pointer to T3)
-        index_content = generate_index(stats, config, target_tiers, installed_plugins)
+        index_content = generate_index(stats, config, target_tiers, installed_plugins, window_days)
         INDEX_SKILL_PATH.parent.mkdir(parents=True, exist_ok=True)
         INDEX_SKILL_PATH.write_text(index_content)
         print(f"\n  T1 index regenerated: {INDEX_SKILL_PATH}")
 
         # T2 index (on demand, lists T3 cold skills/plugins)
-        t2_index_content = generate_t2_index(stats, target_tiers, installed_plugins)
+        t2_index_content = generate_t2_index(stats, target_tiers, installed_plugins, window_days)
         T2_INDEX_PATH.parent.mkdir(parents=True, exist_ok=True)
         T2_INDEX_PATH.write_text(t2_index_content)
         print(f"  T2 index regenerated: {T2_INDEX_PATH}")

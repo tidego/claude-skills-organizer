@@ -21,6 +21,7 @@ python3 ~/.claude/plugins/cache/*/claude-skills-organizer/*/scripts/organize.py
 - **Force demote**: `python3 organize.py --demote <name> --apply`
 - **Rollback last change**: `python3 organize.py --rollback`
 - **Clean (delete T2/T3)**: `python3 organize.py --clean --apply`
+- **Custom window**: `python3 organize.py --window 7` (default: 15 days)
 
 ## How It Works
 

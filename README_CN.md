@@ -90,6 +90,15 @@ T1 索引（始终加载到上下文）
 /skills-organize --clean --apply      # 删除所有 T2/T3 skills，禁用 T2/T3 插件
 ```
 
+### 自定义周期
+
+```
+/skills-organize --window 7              # 使用 7 天窗口（默认 15 天）
+/skills-organize --window 30 --apply     # 使用 30 天窗口并执行
+```
+
+`--window` 参数设置使用统计的时间窗口（默认 15 天）。在此窗口内没有读取记录的 skills 会被归档。窗口越短，归档越激进；窗口越长，保留的活跃 skills 越多。
+
 ### 回滚
 
 ```

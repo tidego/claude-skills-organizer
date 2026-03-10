@@ -96,7 +96,7 @@ def main() -> None:
         T2_INDEX_PATH.parent.mkdir(parents=True, exist_ok=True)
         T2_INDEX_PATH.write_text(t2_index_content)
     except Exception:
-        pass  # Non-fatal: user can run /skills-organize --apply manually
+        pass  # Non-fatal: user can run /cso:skills-organize --apply manually
 
 
 if __name__ == "__main__":

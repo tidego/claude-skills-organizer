@@ -498,7 +498,7 @@ def generate_index(stats: dict, config: dict, tiers: dict,
         lines.append("```")
         lines.append("")
 
-    lines.append("Run `/skills-organize` to rebalance tiers.")
+    lines.append("Run `/cso:skills-organize` to rebalance tiers.")
     lines.append("")
 
     return "\n".join(lines)

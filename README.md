@@ -12,7 +12,7 @@ As you install more Claude Code skills and plugins, every skill's description is
 
 ```bash
 /plugin marketplace add tidego/claude-skills-organizer
-/plugin install claude-skills-organizer
+/plugin install cso
 ```
 
 Once installed, the plugin works **fully automatically** — no extra setup needed. Usage tracking hooks start recording immediately, and tiers adjust dynamically based on your actual usage patterns. For manual control, see the [Usage](#usage) section below, but automatic tracking already handles most scenarios including dynamic promotion and demotion.
@@ -63,38 +63,38 @@ This means Claude can **proactively discover** archived skills when your request
 ### Slash Command
 
 ```
-/skills-organize              # Dry-run: show what would change
-/skills-organize --apply       # Execute tier changes
-/skills-organize --stats       # Show usage statistics
+/cso:skills-organize              # Dry-run: show what would change
+/cso:skills-organize --apply       # Execute tier changes
+/cso:skills-organize --stats       # Show usage statistics
 ```
 
 ### Pin / Unpin
 
 ```
-/skills-organize --pin my-skill          # Keep a skill always in T1
-/skills-organize --pin plugin:my-plugin  # Keep a plugin always in T1
-/skills-organize --unpin my-skill        # Remove pin
+/cso:skills-organize --pin my-skill          # Keep a skill always in T1
+/cso:skills-organize --pin plugin:my-plugin  # Keep a plugin always in T1
+/cso:skills-organize --unpin my-skill        # Remove pin
 ```
 
 ### Force Promote / Demote
 
 ```
-/skills-organize --promote my-skill --apply   # Activate (remove archive flag)
-/skills-organize --demote my-skill --apply     # Archive (add flag)
+/cso:skills-organize --promote my-skill --apply   # Activate (remove archive flag)
+/cso:skills-organize --demote my-skill --apply     # Archive (add flag)
 ```
 
 ### Clean (Destructive)
 
 ```
-/skills-organize --clean              # Preview: show what would be deleted
-/skills-organize --clean --apply      # Delete all T2/T3 skills, disable T2/T3 plugins
+/cso:skills-organize --clean              # Preview: show what would be deleted
+/cso:skills-organize --clean --apply      # Delete all T2/T3 skills, disable T2/T3 plugins
 ```
 
 ### Custom Window
 
 ```
-/skills-organize --window 7              # Use 7-day window instead of default 15
-/skills-organize --window 30 --apply     # Apply with 30-day window
+/cso:skills-organize --window 7              # Use 7-day window instead of default 15
+/cso:skills-organize --window 30 --apply     # Apply with 30-day window
 ```
 
 The `--window` parameter sets the usage window in days (default: 15). Skills with no reads within this window get archived. A shorter window archives more aggressively; a longer window keeps more skills active.
@@ -102,7 +102,7 @@ The `--window` parameter sets the usage window in days (default: 15). Skills wit
 ### Rollback
 
 ```
-/skills-organize --rollback    # Undo last organize
+/cso:skills-organize --rollback    # Undo last organize
 ```
 
 ## How It Works
@@ -119,7 +119,7 @@ Usage data is stored in `~/.claude/skills-archive/usage-stats.json`.
 
 ### Tier Rebalancing
 
-When you run `/skills-organize --apply`:
+When you run `/cso:skills-organize --apply`:
 
 1. **Reconcile**: Scans `~/.claude/skills/` and `~/.claude/plugins/cache/`, removes orphaned stats, registers new entries
 2. **Calculate**: Counts reads per skill/plugin in the 15-day window, determines target tier
@@ -173,7 +173,7 @@ claude-skills-organizer/
 │   ├── .claude-plugin/plugin.json   # Plugin manifest
 │   ├── skills/skills-organize/      # T1 index skill (always loaded)
 │   │   └── SKILL.md
-│   ├── commands/skills-organize.md  # /skills-organize slash command
+│   ├── commands/skills-organize.md  # /cso:skills-organize slash command
 │   ├── hooks/hooks.json             # PreToolUse hooks for tracking
 │   └── scripts/
 │       ├── organize.py              # Core rebalancing logic

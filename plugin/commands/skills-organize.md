@@ -1,13 +1,13 @@
-# /skills-organize
+# /cso:skills-organize
 
 Manage the three-tier skill hierarchy to reduce context noise.
 
 ## Usage
 
-When the user runs `/skills-organize`, execute the organize script:
+When the user runs `/cso:skills-organize`, execute the organize script:
 
 ```bash
-python3 ~/.claude/plugins/cache/*/claude-skills-organizer/*/scripts/organize.py
+python3 ~/.claude/plugins/cache/*/cso/*/scripts/organize.py
 ```
 
 ### Common operations

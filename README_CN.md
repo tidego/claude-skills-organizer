@@ -12,7 +12,7 @@
 
 ```bash
 /plugin marketplace add tidego/claude-skills-organizer
-/plugin install claude-skills-organizer
+/plugin install cso
 ```
 
 安装后**全自动运行**——无需额外操作。使用追踪钩子会立即开始记录，层级根据你的实际使用模式动态调整。如需手动控制，请参考下方[使用方法](#使用方法)部分，但自动追踪已能处理大多数场景，包括动态升降级。
@@ -63,38 +63,38 @@ T1 索引（始终加载到上下文）
 ### 斜杠命令
 
 ```
-/skills-organize              # 预览：显示将要发生的变更
-/skills-organize --apply       # 执行层级变更
-/skills-organize --stats       # 显示使用统计
+/cso:skills-organize              # 预览：显示将要发生的变更
+/cso:skills-organize --apply       # 执行层级变更
+/cso:skills-organize --stats       # 显示使用统计
 ```
 
 ### 置顶 / 取消置顶
 
 ```
-/skills-organize --pin my-skill          # 让某个 skill 始终保持在 T1
-/skills-organize --pin plugin:my-plugin  # 让某个插件始终保持在 T1
-/skills-organize --unpin my-skill        # 取消置顶
+/cso:skills-organize --pin my-skill          # 让某个 skill 始终保持在 T1
+/cso:skills-organize --pin plugin:my-plugin  # 让某个插件始终保持在 T1
+/cso:skills-organize --unpin my-skill        # 取消置顶
 ```
 
 ### 强制升级 / 降级
 
 ```
-/skills-organize --promote my-skill --apply   # 激活（移除归档标记）
-/skills-organize --demote my-skill --apply     # 归档（添加标记）
+/cso:skills-organize --promote my-skill --apply   # 激活（移除归档标记）
+/cso:skills-organize --demote my-skill --apply     # 归档（添加标记）
 ```
 
 ### 清理（破坏性操作）
 
 ```
-/skills-organize --clean              # 预览：显示将要删除的内容
-/skills-organize --clean --apply      # 删除所有 T2/T3 skills，禁用 T2/T3 插件
+/cso:skills-organize --clean              # 预览：显示将要删除的内容
+/cso:skills-organize --clean --apply      # 删除所有 T2/T3 skills，禁用 T2/T3 插件
 ```
 
 ### 自定义周期
 
 ```
-/skills-organize --window 7              # 使用 7 天窗口（默认 15 天）
-/skills-organize --window 30 --apply     # 使用 30 天窗口并执行
+/cso:skills-organize --window 7              # 使用 7 天窗口（默认 15 天）
+/cso:skills-organize --window 30 --apply     # 使用 30 天窗口并执行
 ```
 
 `--window` 参数设置使用统计的时间窗口（默认 15 天）。在此窗口内没有读取记录的 skills 会被归档。窗口越短，归档越激进；窗口越长，保留的活跃 skills 越多。
@@ -102,7 +102,7 @@ T1 索引（始终加载到上下文）
 ### 回滚
 
 ```
-/skills-organize --rollback    # 撤销上次操作
+/cso:skills-organize --rollback    # 撤销上次操作
 ```
 
 ## 工作原理
@@ -119,7 +119,7 @@ T1 索引（始终加载到上下文）
 
 ### 层级重平衡
 
-当你运行 `/skills-organize --apply` 时：
+当你运行 `/cso:skills-organize --apply` 时：
 
 1. **对账**：扫描 `~/.claude/skills/` 和 `~/.claude/plugins/cache/`，移除孤立统计，注册新条目
 2. **计算**：统计 15 天窗口内每个 skill/插件 的读取次数，确定目标层级
@@ -173,7 +173,7 @@ claude-skills-organizer/
 │   ├── .claude-plugin/plugin.json   # 插件清单
 │   ├── skills/skills-organize/      # T1 索引 skill（始终加载）
 │   │   └── SKILL.md
-│   ├── commands/skills-organize.md  # /skills-organize 斜杠命令
+│   ├── commands/skills-organize.md  # /cso:skills-organize 斜杠命令
 │   ├── hooks/hooks.json             # PreToolUse 钩子（用于追踪）
 │   └── scripts/
 │       ├── organize.py              # 核心重平衡逻辑

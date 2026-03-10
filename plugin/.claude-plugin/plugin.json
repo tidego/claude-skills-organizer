@@ -1,5 +1,5 @@
 {
-  "name": "claude-skills-organizer",
+  "name": "cso",
   "version": "1.2.0",
   "description": "Three-tier skill management: keeps context lean by archiving rarely-used skills and plugins",
   "author": {

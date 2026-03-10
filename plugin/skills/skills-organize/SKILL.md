@@ -16,4 +16,4 @@ still works but Claude won't auto-match them. To use one, invoke it directly:
 
 For T3 cold skills, see `~/.claude/skills-archive/t2-index.md`.
 
-Run `/skills-organize` to rebalance tiers.
+Run `/cso:skills-organize` to rebalance tiers.

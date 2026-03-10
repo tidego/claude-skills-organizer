@@ -1,0 +1,24 @@
+{
+  "name": "tidego",
+  "owner": {
+    "name": "tidego"
+  },
+  "metadata": {
+    "description": "Three-tier skill & plugin organizer for Claude Code"
+  },
+  "plugins": [
+    {
+      "name": "claude-skills-organizer",
+      "source": "./plugin",
+      "description": "Manages user skills and plugins in a three-tier hierarchy to reduce context noise",
+      "version": "1.1.0",
+      "author": {
+        "name": "tidego"
+      },
+      "homepage": "https://github.com/tidego/claude-skills-organizer",
+      "repository": "https://github.com/tidego/claude-skills-organizer",
+      "license": "MIT",
+      "keywords": ["skills", "organizer", "context", "tiers", "plugins"]
+    }
+  ]
+}

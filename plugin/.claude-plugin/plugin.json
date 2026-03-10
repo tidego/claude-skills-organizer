@@ -1,0 +1,11 @@
+{
+  "name": "claude-skills-organizer",
+  "version": "1.1.0",
+  "description": "Three-tier skill management: keeps context lean by archiving rarely-used skills and plugins",
+  "author": {
+    "name": "tidego"
+  },
+  "hooks": "./hooks/hooks.json",
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

@@ -454,6 +454,10 @@ def generate_index(stats: dict, config: dict, tiers: dict,
     t3_count = sum(1 for t in tiers.values() if t == 3)
 
     lines = [
+        "---",
+        "name: skills-organize",
+        "description: Three-tier skill & plugin organizer. Automatically archives unused skills to reduce context noise, supports pin/unpin, promote/demote, rollback, clean, and custom usage windows.",
+        "---",
         "# Skills Organizer Index",
         "",
         f"Active: {t1_count} | T2 (warm): {t2_count} | T3 (cold): {t3_count}",

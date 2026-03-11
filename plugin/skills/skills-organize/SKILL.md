@@ -1,3 +1,7 @@
+---
+name: skills-organize
+description: Three-tier skill & plugin organizer. Automatically archives unused skills to reduce context noise, supports pin/unpin, promote/demote, rollback, clean, and custom usage windows.
+---
 # Skills Organizer Index
 
 Active: 0 | Archived: 0 (T2: 0, T3: 0)

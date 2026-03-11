@@ -5,7 +5,6 @@
   "author": {
     "name": "tidego"
   },
-  "hooks": "./hooks/hooks.json",
   "skills": "./skills/",
   "commands": "./commands/"
 }
